@@ -1,18 +1,19 @@
 /**
  * Created by Tiakon on 2017/7/5.
  */
+var borad = new Array();
 $(function () {
     newGame();
-
-
 });
 function newGame() {
     //初始化棋盘
     init();
+    //生成两个随机位置的随机数
+    generateOneNumber();
+    generateOneNumber();
 }
 
 function init() {
-    var borad = new Array();
     //i表示4乘4的格子中的行
     for (var i = 0; i < 4; i++) {
         borad[i] = new Array();
@@ -27,12 +28,12 @@ function init() {
             //通过getLeft()方法设置每个格子距左端的距离
             gridCell.css("left", getLeft(j));
         }
-
     }
-    updateBoardView(borad);
+    updateBoardView();
+
 }
 
-function updateBoardView(borad) {
+function updateBoardView() {
     //首先清空之前的数字格布局内容
     $(".number-cell").remove();
     for (var i = 0; i < 4; i++) {
@@ -52,9 +53,35 @@ function updateBoardView(borad) {
                 numberCell.css("height", "100px");
                 numberCell.css("top", getTop(i));
                 numberCell.css("left", getLeft(j));
+                numberCell.css("background-color", getNumberBackgroundColor(board[i][j]));
+                numberCell.css("color", getNumberColor(board[i][j]));
+                numberCell.text(board[i][j]);
             }
         }
     }
+}
 
+function generateOneNumber() {
+    //1.生成一个随机的位置
+
+    //随机一个x坐标的位置
+    var randx = parseInt(Math.floor(Math.random() * 4));
+    //随机一个y坐标的位置
+    var randy = parseInt(Math.floor(Math.random() * 4));
+    //定义一个死循环,完成生成随机空格子
+    while (true) {
+        //如果当前格子的值为0,满足条件
+        if (borad[randx][randy] == 0) {
+            break;
+        }
+        //否则重新随机一个位置
+        var randx = parseInt(Math.floor(Math.random() * 4));
+        var randy = parseInt(Math.floor(Math.random() * 4));
+    }
+
+    //2.生成一个随机的数字(2048游戏规则，新生成的数值只能是2或4)
+    var randNumber = Math.random() < 0.5 ? 2 : 4;
+    //3.在随机位置上显示随机的数字
+    ShowNumberWithAnimation(randx, randy, randNumber);
 
 }
