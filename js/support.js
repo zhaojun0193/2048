@@ -2,12 +2,12 @@
  * Created by Tiakon on 2017/7/5.
  */
 //通过getTop()方法设置每个格子距顶端的距离
-function getTop(j) {
-    return 20 + j * 120;
+function getTop(i) {
+    return 20 + i * 120;
 }
 //通过getLeft()方法设置每个格子距左端的距离
-function getLeft(i) {
-    return 20 + i * 120;
+function getLeft(j) {
+    return 20 + j * 120;
 }
 
 function getNumberBackgroundColor(randNumber) {
@@ -60,4 +60,27 @@ function getNumberColor(randNumber) {
         return "#776e65"
     }
     return "white";
+}
+
+function canMoveLeft(board){
+    for (var i = 0; i < 4; i++) {
+        for (var j = 1; j < 4; j++) {
+            if (board[i][j] != 0) {
+                //当前数字格的左边第一个值为0的或者当前数字格的值与左边第一个数字格的值相等
+                if (board[i][j - 1] == 0 || board[i][j - 1] == board[i][j]) {
+                    return true;
+                }
+            }
+        }
+    }
+    return fasle;
+}
+
+function noBlokHorizontalCol(row, col1, col2, board){
+    for (var i = col1 + 1; i < col2; i++) {
+        if (board[row][i] != 0) {
+            return false;
+        }
+    }
+    return true;
 }
